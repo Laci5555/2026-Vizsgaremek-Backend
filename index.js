@@ -44,7 +44,7 @@ async function uploadFile(req, res) {
     });
     console.log(result);
     
-    res.status(201).send({ url: result.secure_url, publicId: result.publicId});
+    res.status(201).send({ url: result.secure_url, public_id: result.public_id});
 
   } catch (err) {
     res.status(500).send({ error: err.message });
@@ -98,7 +98,7 @@ app.post("/uploadFile", upload.single('file'), uploadFile)
 app.post("/uploadPfp", upload.single('file'), uploadPfp)
 app.delete("/deleteImage", deleteImage)
 
-
-app.listen(88, err=>{
-    console.log(err?err:"Server on :88");
+const PORT = process.env.PORT || 88;
+app.listen(PORT, err=>{
+    console.log(err?err:`Server on :${PORT}`);
 })
