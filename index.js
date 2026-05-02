@@ -207,6 +207,10 @@ app.get("/health", (req, res) => {
   });
 });
 
-app.listen(88, err => {
-  console.log(err ? err : `Server on :88`);
-})
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(88, err => {
+    console.log(err ? err : `Server on :88`);
+  });
+}
+
+export default app;
