@@ -1,7 +1,7 @@
 import express from "express"
 import cors from "cors"
 import multer from "multer"
-import {v2 as cloudinary} from 'cloudinary'
+import { v2 as cloudinary } from 'cloudinary'
 import dotenv from 'dotenv';
 
 dotenv.config({ path: './.env' })
@@ -13,7 +13,7 @@ app.use(cors())
 
 
 const upload = multer({
-    storage:multer.memoryStorage()
+  storage: multer.memoryStorage()
 })
 
 cloudinary.config({
@@ -39,20 +39,20 @@ async function uploadFile(req, res) {
           else resolve(result);
         }
       );
-      
+
       stream.end(req.file.buffer);
     });
     console.log(result);
-    
-    res.status(201).send({ url: result.secure_url, public_id: result.public_id});
+
+    res.status(201).send({ url: result.secure_url, public_id: result.public_id });
 
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
 }
 
-async function uploadPfp(req,res){
-    try {
+async function uploadPfp(req, res) {
+  try {
     if (!req.file) {
       return res.status(400).send({ msg: "Error missing file" });
     }
@@ -68,37 +68,53 @@ async function uploadPfp(req,res){
           else resolve(result);
         }
       );
-      
+
       stream.end(req.file.buffer);
     });
     console.log(result);
-    res.status(201).send({ url: result.secure_url, public_id: result.public_id});
+    res.status(201).send({ url: result.secure_url, public_id: result.public_id });
 
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
 }
 
-async function deleteImage(req,res) {
-    let {public_id} = req.body
-    console.log(public_id);
-    
-    if(public_id){
-        const result = await cloudinary.uploader.destroy(public_id);
-        console.log(result);
-        res.status(200).send({msg:"Succesful Deletion!"})
-    }else{
-        res.status(400).send({msg:"Image not found"})
-    }
+async function deleteImage(req, res) {
+  let { public_id } = req.body
+  console.log(public_id);
+
+  if (public_id) {
+    const result = await cloudinary.uploader.destroy(public_id);
+    console.log(result);
+    res.status(200).send({ msg: "Succesful Deletion!" })
+  } else {
+    res.status(400).send({ msg: "Image not found" })
+  }
 }
 
-app.get("/", (req,res)=>res.send("Games v1.0.0 (-_-)"))
+app.get("/", (req, res) => res.send("Games v1.0.0 (-_-)"))
 
 app.post("/uploadFile", upload.single('file'), uploadFile)
 app.post("/uploadPfp", upload.single('file'), uploadPfp)
 app.delete("/deleteImage", deleteImage)
 
-const PORT = process.env.PORT || 88;
-app.listen(PORT, err=>{
-    console.log(err?err:`Server on :${PORT}`);
+app.post("/check-email", (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).send({ error: 'Email is required' });
+
+  // Simple regex check for @ and .
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(email)) {
+    return res.status(400).send({
+      valid: false,
+      message: "Invalid email format. Please include '@' and a domain (e.g., .com)."
+    });
+  }
+
+  res.status(200).send({ valid: true });
+});
+
+app.listen(88, err => {
+  console.log(err ? err : `Server on :88`);
 })
