@@ -198,6 +198,15 @@ app.post("/welcome-email", async (req, res) => {
   }
 });
 
+// Health check végpont a frontend monitoringhoz és Render keep-alive-hoz
+app.get("/health", (req, res) => {
+  res.status(200).send({ 
+    status: "online", 
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
+  });
+});
+
 app.listen(88, err => {
   console.log(err ? err : `Server on :88`);
 })
