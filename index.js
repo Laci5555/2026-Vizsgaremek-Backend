@@ -166,14 +166,10 @@ app.post("/welcome-email", async (req, res) => {
               
               <!-- Action Button -->
               <div align="center" style="margin-bottom: 20px;">
-                <a href="http://localhost:5173" style="background: #6c63ff; background: linear-gradient(135deg, #6c63ff 0%, #a5b4fc 100%); color: #ffffff; padding: 18px 40px; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 16px; display: inline-block; box-shadow: 0 10px 25px rgba(108, 99, 255, 0.4);">
+                <a href="https://gamminity.netlify.app" style="background: #6c63ff; background: linear-gradient(135deg, #6c63ff 0%, #a5b4fc 100%); color: #ffffff; padding: 18px 40px; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 16px; display: inline-block; box-shadow: 0 10px 25px rgba(108, 99, 255, 0.4);">
                   Back to Gamminity →
                 </a>
               </div>
-              
-              <p style="font-size: 13px; color: #55556a; margin-top: 30px;">
-                Note: This link currently points to your local development environment.
-              </p>
             </td>
           </tr>
           
